@@ -2,7 +2,7 @@ import { Studentform } from '@/components/Studentform'
 import { Studentwrapper } from '@/components/Studentwrapper'
 import React from 'react'
 
-export const studentcourse = () => {
+export const Studentcourse = () => {
   return (
     <div className='h-screen flex items-center justify-center shadow-md'>
       <Studentwrapper title='Student Course Registeration Form '>
@@ -12,4 +12,4 @@ export const studentcourse = () => {
   )
 }
 
-export default studentcourse
+export default Studentcourse
