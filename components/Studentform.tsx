@@ -1,0 +1,113 @@
+"use client"
+import React from 'react'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Students } from '@/actions/student'
+
+
+export const formSchema = z.object({
+    username: z.string().min(2, {
+      message: "Username must be at least 2 characters.",
+    }),
+    course: z.string().min(2, {
+        message: "Course Name must be at least 2 characters.",
+      }),
+      phonenumber: z.string().min(11, {
+        message: "Contact number must be at least 11 characters.",
+      }),
+      email: z.string().email(),
+  })
+
+export const Studentform = () => {
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+          username: "",
+          course: "",
+          phonenumber: "",
+          email: "",
+        },
+      })
+     
+      // 2. Define a submit handler.
+      function onSubmit(values: z.infer<typeof formSchema>) {
+        
+        console.log(values)
+        Students(values)
+
+      }
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="course"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Course Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the course you want to enroll in" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phonenumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contact number</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your contact number" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>E-mail Address</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your email address" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className='flex items-center justify-center'>
+        <Button type="submit">Submit</Button>
+        </div>
+      </form>
+    </Form>
+  )
+}
